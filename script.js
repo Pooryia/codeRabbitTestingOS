@@ -45,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
         gridContainer.appendChild(cell);
     }
     
-    // Function to check if all cells are flipped and trigger a special effect
+    /**
+     * Checks if all grid cells are flipped and, if so, applies a pulsing animation to the grid container.
+     */
     function checkAllFlipped() {
         const allFlipped = cells.every(cell => cell.classList.contains('flipped'));
         if (allFlipped) {
@@ -54,7 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Function to get random rotation animation style
+    /**
+     * Returns a randomly selected animation style object for cell rotation or flipping.
+     * The returned object contains an `animation` property with a CSS animation string chosen from a set of predefined rotation, flip, spin, and pulse effects.
+     * @return {{animation: string}} An object specifying the animation style to apply.
+     */
     function getRandomRotationStyle() {
         const animations = [
             { animation: 'rotate-scale 0.8s forwards' },
@@ -69,7 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return animations[randomIndex];
     }
     
-    // Function to generate semi-transparent random colors
+    /**
+     * Generates a random semi-transparent HSLA color within the blue to purple hue range.
+     * @return {string} An HSLA color string with hue between 240–300, saturation 40–70%, lightness 30–50%, and alpha 0.2–0.6.
+     */
     function getRandomColor() {
         // Generate colors that will blend nicely with the purple gradient
         const hue = Math.floor(Math.random() * 60) + 240; // Blue to purple range
