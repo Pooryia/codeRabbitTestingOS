@@ -25,11 +25,15 @@ A mesmerizing 9x9 interactive grid that comes to life with smooth animations and
 
 2. **Open in your browser**
    ```bash
-   # Simply open index.html in your preferred browser
+   # macOS
    open index.html
-   # or
-   double-click index.html
+   # Linux (GNOME/KDE)
+   xdg-open index.html
+   # Windows (PowerShell)
+   start index.html
    ```
+
+   Or simply double-click the file in your file manager.
 
 3. **Start clicking!**
    - Click any grid cell to see it flip with a random animation
@@ -45,7 +49,7 @@ A mesmerizing 9x9 interactive grid that comes to life with smooth animations and
 
 ### Interaction
 - **Click**: Triggers random flip animation and color change
-- **Hover**: Scales cell up with purple glow effect
+- **Hover**: Scales the cell up with a purple glow effect
 - **Completion**: Pulsing animation when all cells are flipped
 
 ### Animation Types
@@ -56,5 +60,11 @@ A mesmerizing 9x9 interactive grid that comes to life with smooth animations and
 
 ## 📁 File Structure
 
+```
+codeRabbitTestingOS/
+├── index.html      # Grid markup
+├── styles.css      # Grid styling & animations
+├── script.js       # Grid logic & interactivity
+└── README.md       # Project documentation (this file)
+```
 
-git add .
