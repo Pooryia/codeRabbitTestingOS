@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #111;
+}
+
+.container {
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.cell {
+    background-color: #000;
+    border: 1px solid #222;
+    transition: transform 0.8s ease, background-color 0.8s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.cell.flipped {
+    transform: rotateY(180deg);
+    background-color: transparent;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.cell:hover {
+    transform: scale(1.05);
+    z-index: 20;
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+}
+
+.cell.flipped:hover {
+    transform: rotateY(180deg) scale(1.05);
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #2c1654 0%, #150b30 100%);
+    z-index: 1;
+    animation: gradient-shift 8s infinite alternate;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background: radial-gradient(circle at center, #2c1654 0%, #150b30 100%);
+        box-shadow: 0 0 30px #2c1654;
+    }
+    50% {
+        background: radial-gradient(circle at 30% 70%, #341c6a 0%, #1a0d40 100%);
+        box-shadow: 0 0 40px #341c6a;
+    }
+    100% {
+        background: radial-gradient(circle at 70% 30%, #3a1b7a 0%, #1d0b50 100%);
+        box-shadow: 0 0 50px #3a1b7a;
+    }
+}
+
+@keyframes rotate-scale {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(0.9);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes flip-in {
+    0% {
+        transform: rotateX(0deg);
+    }
+    100% {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes spin-out {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    100% {
+        transform: rotate(720deg) scale(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} 
