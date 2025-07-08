@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
     
-    // Set canvas size to match container
+    /**
+     * Resizes the canvas to match the container's dimensions and adjusts for device pixel ratio to ensure sharp rendering.
+     */
     function resizeCanvas() {
         const container = document.querySelector('.container');
         const rect = container.getBoundingClientRect();
@@ -42,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.container').appendChild(particlesContainer);
     
     /**
-     * Initialize the grid and create all cells
+     * Creates and initializes a 9x9 grid of interactive cells with position-based styling and event listeners.
+     *
+     * Each cell is assigned custom CSS properties for gradient backgrounds and animation delays, a unique ID, and a click event handler for interactive effects. The cells are appended to the grid container and tracked in the global `cells` array.
      */
     function initializeGrid() {
         // Generate grid cells
@@ -92,11 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Handles the click event on a cell
-     * @param {Event} event - The click event
-     * @param {HTMLElement} cell - The cell element that was clicked
-     * @param {number} row - The row index of the cell
-     * @param {number} col - The column index of the cell
+     * Handles a grid cell click, toggling its flipped state and triggering visual effects.
+     *
+     * If the cell is not currently animating, this function applies a rotation animation, toggles the flipped state, and initiates both DOM and canvas-based particle effects at the cell's center. If the cell is already flipped, it reverses the animation and restores the original state. When all cells are flipped, a completion effect is triggered.
+     *
+     * @param {Event} event - The click event.
+     * @param {HTMLElement} cell - The grid cell element that was clicked.
+     * @param {number} row - The row index of the cell.
+     * @param {number} col - The column index of the cell.
      */
     function handleCellClick(event, cell, row, col) {
         // Prevent default to avoid any browser-specific issues
@@ -151,11 +158,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates canvas-based particles at the specified position
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} row - The row index of the cell
-     * @param {number} col - The column index of the cell
+     * Generates and queues a burst of canvas-based particles at the specified coordinates, with color and glow effects determined by the cell's position.
+     * 
+     * @param {number} x - The x-coordinate of the effect center in page space.
+     * @param {number} y - The y-coordinate of the effect center in page space.
+     * @param {number} row - The row index of the originating cell.
+     * @param {number} col - The column index of the originating cell.
      */
     function createCanvasParticles(x, y, row, col) {
         const hueBase = 240 + ((row + col) / (gridSize * 2 - 2)) * 60; // Blue to purple range
@@ -203,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let animationLoopRunning = false;
     
     /**
-     * Animates all canvas particles
+     * Animates and renders all active canvas-based particles with physics and glow effects, removing particles as they expire.
      */
     function animateCanvasParticles() {
         // Clear canvas
@@ -262,11 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates various particle effects at the specified position
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} row - The row index of the cell
-     * @param {number} col - The column index of the cell
+     * Triggers multiple layered particle and visual effects at a given grid cell position.
+     * 
+     * Creates regular particles, smoke, glow, sparkle, and ripple effects at the specified coordinates, with colors determined by the cell's row and column to match the grid's gradient scheme.
+     * 
+     * @param {number} x - The x-coordinate of the effect center.
+     * @param {number} y - The y-coordinate of the effect center.
+     * @param {number} row - The row index of the cell.
+     * @param {number} col - The column index of the cell.
      */
     function createParticleEffects(x, y, row, col) {
         // Calculate color based on position in the grid to match the gradient
@@ -289,11 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates regular particles
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} count - The number of particles to create
-     * @param {number} hueBase - The base hue value for the particles
+     * Creates and animates a burst of regular colored particles at a specified position.
+     *
+     * Generates multiple small DOM elements with randomized size, direction, color, and animation duration, originating from the given coordinates and dispersing outward. Each particle fades out and is removed after its animation completes.
+     *
+     * @param {number} x - The x-coordinate of the effect center in viewport space.
+     * @param {number} y - The y-coordinate of the effect center in viewport space.
+     * @param {number} count - The number of particles to create.
+     * @param {number} hueBase - The base hue value for particle coloring.
      */
     function createParticles(x, y, count, hueBase) {
         // Get the container's position to calculate relative coordinates
@@ -347,11 +361,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates smoke particles
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} count - The number of smoke particles to create
-     * @param {number} hueBase - The base hue value for the smoke particles
+     * Creates and animates smoke-like particle effects at a specified position.
+     *
+     * Generates a specified number of semi-transparent, gradient-colored smoke particles with randomized sizes, directions (biased upward), and animation durations. Each particle is positioned relative to the container and removed after its animation completes.
+     *
+     * @param {number} x - The x-coordinate of the effect center.
+     * @param {number} y - The y-coordinate of the effect center.
+     * @param {number} count - The number of smoke particles to create.
+     * @param {number} hueBase - The base hue value for the smoke particles' color.
      */
     function createSmokeParticles(x, y, count, hueBase) {
         // Get the container's position to calculate relative coordinates
@@ -410,11 +427,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates glow effects
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} count - The number of glow effects to create
-     * @param {number} hueBase - The base hue value for the glow effects
+     * Creates multiple glowing visual effects at a specified position with color variations.
+     * 
+     * Generates a specified number of glow elements at the given coordinates, each with randomized size, color (based on the provided hue), and animation duration. The glow effects are positioned relative to the grid container and are automatically removed after their animation completes.
+     * 
+     * @param {number} x - The x-coordinate (relative to the viewport) where the glow effects originate.
+     * @param {number} y - The y-coordinate (relative to the viewport) where the glow effects originate.
+     * @param {number} count - The number of glow effects to create.
+     * @param {number} hueBase - The base hue value used to determine the color of the glow effects.
      */
     function createGlowEffects(x, y, count, hueBase) {
         // Get the container's position to calculate relative coordinates
@@ -455,11 +475,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates sparkle particles
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} count - The number of sparkle particles to create
-     * @param {number} hueBase - The base hue value for the sparkle particles
+     * Creates and animates multiple sparkle particles at a specified position with randomized size, color, and animation.
+     * 
+     * @param {number} x - The x-coordinate of the effect center in the viewport.
+     * @param {number} y - The y-coordinate of the effect center in the viewport.
+     * @param {number} count - The number of sparkle particles to generate.
+     * @param {number} hueBase - The base hue value used to determine the sparkle colors.
      */
     function createSparkleParticles(x, y, count, hueBase) {
         // Get the container's position to calculate relative coordinates
@@ -506,11 +527,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates ripple effects
-     * @param {number} x - The x-coordinate of the effect center
-     * @param {number} y - The y-coordinate of the effect center
-     * @param {number} count - The number of ripple effects to create
-     * @param {number} hueBase - The base hue value for the ripple effects
+     * Creates animated ripple effects at a specified position within the container.
+     *
+     * Generates multiple expanding circular ripple elements with colored borders, positioned relative to the container, and removes them after their animation completes.
+     * @param {number} x - The x-coordinate of the ripple center, relative to the viewport.
+     * @param {number} y - The y-coordinate of the ripple center, relative to the viewport.
+     * @param {number} count - The number of ripple effects to generate.
+     * @param {number} hueBase - The base hue value used to determine the ripple color.
      */
     function createRippleEffects(x, y, count, hueBase) {
         // Get the container's position to calculate relative coordinates
@@ -566,10 +589,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Generates a random semi-transparent HSLA color within the blue to purple hue range.
-     * @param {number} row - The row index of the cell
-     * @param {number} col - The column index of the cell
-     * @return {string} An HSLA color string with hue between 240–300, saturation 40–70%, lightness 30–50%, and alpha 0.2–0.6.
+     * Returns a semi-transparent HSLA color string in the blue to purple range based on the cell's row and column.
+     * The color varies smoothly across the grid, with randomized saturation and lightness for visual diversity.
+     * @param {number} row - The row index of the cell.
+     * @param {number} col - The column index of the cell.
+     * @return {string} An HSLA color string with hue between 240–300, saturation 60–80%, lightness 35–50%, and alpha 0.9.
      */
     function getGradientColor(row, col) {
         // Calculate hue based on position in the grid
@@ -592,7 +616,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Checks if all grid cells are flipped and, if so, applies a pulsing animation to the grid container.
+     * Checks whether all grid cells are flipped and triggers completion effects if true.
+     *
+     * If every cell has the 'flipped' class, applies a pulsing animation to the grid container and initiates a special completion visual effect. Removes the animation if not all cells are flipped.
      */
     function checkAllFlipped() {
         const allFlipped = cells.every(cell => cell.classList.contains('flipped'));
@@ -609,7 +635,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates a special effect when all cells are flipped
+     * Triggers a complex visual celebration effect when all grid cells are flipped.
+     *
+     * Generates a central burst of particles, glow, and ripple effects with staggered timing, creates floating decorative elements, and initiates a grand finale canvas animation centered in the container.
      */
     function createCompletionEffect() {
         // Get the container dimensions
@@ -650,9 +678,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates a spectacular grand finale effect on the canvas
-     * @param {number} centerX - The x-coordinate of the center
-     * @param {number} centerY - The y-coordinate of the center
+     * Triggers a grand finale animation by generating a spiral vortex of glowing canvas particles centered at the specified coordinates, followed by a shockwave effect.
+     * @param {number} centerX - The x-coordinate of the animation center.
+     * @param {number} centerY - The y-coordinate of the animation center.
      */
     function createGrandFinaleEffect(centerX, centerY) {
         // Create a vortex of particles
@@ -693,9 +721,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates a shockwave effect on the canvas
-     * @param {number} x - The x-coordinate of the center
-     * @param {number} y - The y-coordinate of the center
+     * Creates an expanding shockwave animation centered at the specified canvas coordinates.
+     * @param {number} x - The x-coordinate of the shockwave center.
+     * @param {number} y - The y-coordinate of the shockwave center.
      */
     function createShockwaveEffect(x, y) {
         let radius = 10;
@@ -703,6 +731,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const speed = 5;
         let opacity = 1;
         
+        /**
+         * Draws and animates an expanding shockwave effect with multiple colored rings on the canvas.
+         * 
+         * The shockwave consists of concentric arcs with varying colors and opacities, expanding outward from a central point. The animation continues until the shockwave fades out.
+         */
         function drawShockwave() {
             ctx.save();
             ctx.beginPath();
@@ -738,7 +771,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Creates floating decorative elements after completion
+     * Creates and animates floating decorative circles within the container after the grid completion effect.
+     *
+     * Generates multiple semi-transparent, colored floating elements with randomized size, position, color, and animation, enhancing the celebratory visual effect upon completion.
      */
     function createFloatingElements() {
         const container = document.querySelector('.container');
